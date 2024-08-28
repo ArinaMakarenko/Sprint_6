@@ -1,46 +1,11 @@
 from selenium.webdriver.common.by import By
 
 
-class HomePageHeaderLocators:
-    """Хедер"""
-    logo_yandex = (By.XPATH, ".//a[@class = 'Header_LogoYandex__3TSOI']")
-    logo_scooter = (By.XPATH, ".//a[@class = 'Header_LogoScooter__3lsAR']")
-    order_button = (By.XPATH, "(.//button[text() = 'Заказать'])[1]")
-    order_status_button = (By.XPATH, ".//button[text() = 'Статус заказа']")
-    number_order_field = (By.XPATH, ".//input[@class = 'Input_Input__1iN_Z Header_Input__xIoUq']")
-    go_button = (By.XPATH, ".//button[text() = 'Go!']")
-    track_field = (By.XPATH, ".//input[@placeholder='Введите номер заказа']")
-    view_button = (By.XPATH, ".//button[text() = 'Посмотреть']")
-    header_page_title = (By.XPATH, ".//div[text() = 'Учебный тренажер']")
-
-
-class HomePageLocators:
-    """Главная страница сервиса"""
-    home_page_title = (By.XPATH, ".//div[@class = 'Home_Header__iJKdX']")
-    order_button = (By.XPATH, "(//button[text() = 'Заказать'])[2]")
-    accept_cookies_button = (By.XPATH, "//button[@id = 'rcc-confirm-button']")
-    questions_title = (By.XPATH, "//div[text() = 'Вопросы о важном']")
-
-    # Локаторы кнопок вопросов
-    questions = [
-        (By.ID, "accordion__heading-0"),
-        (By.ID, "accordion__heading-1"),
-        (By.ID, "accordion__heading-2"),
-        (By.ID, "accordion__heading-3"),
-        (By.ID, "accordion__heading-4"),
-        (By.ID, "accordion__heading-5"),
-        (By.ID, "accordion__heading-6"),
-        (By.ID, "accordion__heading-7")
-    ]
-
-    # Локаторы текста ответов
-    questions_text = [
-        (By.ID, "accordion__panel-0"),
-        (By.ID, "accordion__panel-1"),
-        (By.ID, "accordion__panel-2"),
-        (By.ID, "accordion__panel-3"),
-        (By.ID, "accordion__panel-4"),
-        (By.ID, "accordion__panel-5"),
-        (By.ID, "accordion__panel-6"),
-        (By.ID, "accordion__panel-7")
-    ]
+class MainPageLocators:
+    COOKIE_LOCATOR = By.CSS_SELECTOR, ".App_CookieButton__3cvqF"  # Локатор cookie
+    QUESTION_LOCATOR = ".//div[@class='accordion__button' and contains(text(), '{}')]"  # Общий локатор вопроса
+    ANSWER_LOCATOR = QUESTION_LOCATOR + "/parent::div/following-sibling::div"  # Общий локатор ответа
+    LAST_QUESTION_LOCATOR = By.XPATH, ".//div[@class='accordion']/div[last()]"  # Локатор последнего вопроса
+    FIRST_ORDER_BUTTON = By.XPATH, ".//button[@class='Button_Button__ra12g']"  # Локатор первой кнопки "Заказать"
+    MIDLE_ORDER_BUTTON = By.XPATH, ".//button[@class='Button_Button__ra12g Button_Middle__1CSJM']"  # Локатор второй
+    # кнопки "Заказать"

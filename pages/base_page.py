@@ -1,4 +1,5 @@
-from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support import expected_conditions
 from selenium.webdriver.support.wait import WebDriverWait
 
 
@@ -7,36 +8,21 @@ class BasePage:
     def __init__(self, driver):
         self.driver = driver
 
-    # Получить текущий URL
-    def get_current_url(self):
-        return self.driver.current_url
+    def find_element_with_wait(self, locator):
+        WebDriverWait(self.driver, 5).until(expected_conditions.visibility_of_element_located(locator))
+        return self.driver.find_element(*locator)
 
-    # Ожидание отображения локатора
-    def find_and_wait_locator(self, locator):
-        return WebDriverWait(self.driver, 10).until(
-            EC.visibility_of_element_located(locator)
-            )
+    def click_to_element(self, locator):
+        self.find_element_with_wait(locator).click()
 
-    # Клик по кнопке
-    def click_button(self, locator):
-        self.find_and_wait_locator(locator).click()
+    def add_text_to_element(self, locator, text):
+        self.find_element_with_wait(locator).send_keys(text)
 
-    # Заполнение формы
-    def send_keys_to_field(self, locator, text):
-        self.find_and_wait_locator(locator).send_keys(text)
+    def get_text_from_element(self, locator):
+        return self.find_element_with_wait(locator).text
 
-    # Получить текст элемента
-    def get_text_locator(self, locator):
-        return self.find_and_wait_locator(locator).text
+    @staticmethod
+    def format_locator(locator_value, data):
+        locator = locator_value.format(data)
+        return By.XPATH, locator
 
-    # Скролл к нужному элементу
-    def scroll_to_locator(self, locator):
-        element = self.find_and_wait_locator(locator)
-        self.driver.execute_script("arguments[0].scrollIntoView();", element)
-
-    # Переход на новую вкладку браузера
-    def go_to_new_tab(self):
-        self.driver.switch_to.window(self.driver.window_handles[1])
-
-    def check_element(self, locator):
-        return self.find_and_wait_locator(locator).is_displayed()
